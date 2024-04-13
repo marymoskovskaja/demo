@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - logicalFilePath: db/changelog/scripts/db.changelog-002.yaml
+  - changeSet:
+      id: 002-01
+      author: Мария Московская
+      comment: Добавление флага просмотра в таблицу фильмов
+      changes:
+        - addColumn:
+            tableName: movie
+            columns:
+              - column:
+                  name: is_watched
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false

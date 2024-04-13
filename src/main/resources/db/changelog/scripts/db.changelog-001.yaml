@@ -1,0 +1,54 @@
+databaseChangeLog:
+  - logicalFilePath: db/changelog/scripts/db.changelog-001.yaml
+  - changeSet:
+      id: 001-01
+      author: Мария Московская
+      comment: Создание таблицы фильмов
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  name: movie_id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: movie_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: year
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: country
+                  type: varchar(255)
+              - column:
+                  name: description
+                  type: varchar(4095)
+              - column:
+                  name: external_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: length
+                  type: bigint
+                  constraints:
+                    nullable: false
+            remarks: Таблица фильмов
+            schemaName: public
+            tableName: movie
+  - changeSet:
+      id: 001-02
+      author: Мария Московская
+      comment: Создание последовательности для таблицы фильмов
+      changes:
+        - createSequence:
+            schemaName: public
+            sequenceName: movie_seq
+            startValue: 1
+            incrementBy: 1
