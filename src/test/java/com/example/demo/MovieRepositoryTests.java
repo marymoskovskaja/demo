@@ -2,6 +2,7 @@ package com.example.demo;
 
 import com.example.demo.domain.MovieEntity;
 import com.example.demo.dto.MovieRequest;
+import com.example.demo.exception.ElementExistException;
 import com.example.demo.jpa.MovieRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -32,6 +33,8 @@ public class MovieRepositoryTests {
         repository.save(entity);
 
         Assertions.assertTrue(repository.existsByExternalId(entity.getExternalId()));
+        Assertions.assertDoesNotThrow(() -> repository.getMovieFromExternalIdOrThrow(entity.getExternalId()));
+        Assertions.assertEquals(entity, repository.getMovieFromExternalIdOrThrow(entity.getExternalId()));
     }
 
     @Test
@@ -39,6 +42,7 @@ public class MovieRepositoryTests {
         repository.save(entity);
 
         Assertions.assertFalse(repository.existsByExternalId(-1L));
+        Assertions.assertThrows(ElementExistException.class, () -> repository.getMovieFromExternalIdOrThrow(-1L));
     }
 
     @Test
@@ -56,5 +60,13 @@ public class MovieRepositoryTests {
         Assertions.assertEquals(2, repository.findAllWithPaging(
                 MovieRequest.builder().recordCount(2).build()).size());
     }
+    @Test
+    void deleteSuccessfulTest() {
+        repository.save(entity);
+
+        Assertions.assertDoesNotThrow(() -> repository.delete(entity));
+        Assertions.assertFalse(repository.existsById(entity.getMovieId()));
+    }
+
 
 }

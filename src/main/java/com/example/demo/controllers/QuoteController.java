@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * Контроллер для работы с цитатами.
+ */
 @RestController
 @RequestMapping("/quote")
 @AllArgsConstructor

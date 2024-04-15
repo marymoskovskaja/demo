@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * Контроллер для работы с фильмами.
+ */
 @RestController
 @RequestMapping("/movies")
 @AllArgsConstructor
@@ -34,6 +37,12 @@ public class MovieController {
     @ApiOperation(value = "Отметить как просмотренное")
     public void markAsWatched(@RequestParam Long id) {
         movieService.markMovieAsWatched(id);
+    }
+
+    @DeleteMapping("/delete")
+    @ApiOperation(value = "Передумал смотреть (удалить из личного списка)")
+    public void delete(@RequestParam Long id) {
+        movieService.deleteFromList(id);
     }
 
 }

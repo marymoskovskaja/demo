@@ -110,7 +110,7 @@ public abstract class MovieService<T extends ExternalServiceRequest> implements 
      * @param id идентификатор фильма в списке.
      */
     public void markMovieAsWatched(Long id) {
-        var movieEntity = repository.findByExternalId(id).orElseThrow(() -> new ElementExistException(false));
+        var movieEntity = repository.getMovieFromExternalIdOrThrow(id);
 
         movieEntity.setIsWatched(true);
 
@@ -134,6 +134,16 @@ public abstract class MovieService<T extends ExternalServiceRequest> implements 
 
             return null;
         }
+    }
+
+    /**
+     * Удаление фильма из списка.
+     * @param id идентификатор фильма.
+     */
+    public void deleteFromList(Long id) {
+        var movieEntity = repository.getMovieFromExternalIdOrThrow(id);
+
+        repository.delete(movieEntity);
     }
 
 }

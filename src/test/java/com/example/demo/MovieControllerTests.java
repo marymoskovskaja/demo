@@ -123,9 +123,9 @@ public class MovieControllerTests {
     }
 
     @Test
-    void markAsWatchedMovieExistsTest() {
-        Mockito.when(repository.findById(anyLong()))
-                .thenReturn(Optional.ofNullable(generator.nextObject(MovieEntity.class)));
+    void markAsWatchedMovieWorkTest() {
+        Mockito.when(repository.getMovieFromExternalIdOrThrow(anyLong()))
+                .thenReturn(generator.nextObject(MovieEntity.class));
 
         Assertions.assertDoesNotThrow(() -> controller.markAsWatched(generator.nextLong()));
 
@@ -133,11 +133,14 @@ public class MovieControllerTests {
     }
 
     @Test
-    void markAsWatchedMovieNotExistsTest() {
-        Assertions.assertThrows(ElementExistException.class, () -> controller
-                .markAsWatched(generator.nextLong()));
+    void deleteMovieWorkTest() {
+        var entity = generator.nextObject(MovieEntity.class);
 
-        Mockito.verify(repository, Mockito.times(0)).save(any(MovieEntity.class));
+        Mockito.when(repository.getMovieFromExternalIdOrThrow(anyLong())).thenReturn(entity);
+
+        Assertions.assertDoesNotThrow(() -> controller.delete(entity.getExternalId()));
+
+        Mockito.verify(repository, Mockito.times(1)).delete(any(MovieEntity.class));
     }
 
 }
