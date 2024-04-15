@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  demo:
+    image: 'demo'
+    build:
+      context: .
+    depends_on:
+      - db
+      - pgadmin
+    ports:
+      - "0.0.0.0:8081:8081"
+      - "0.0.0.0:5005:5005"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+  db:
+    image: 'postgres'
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+  cache:
+    image: "redis"
+    container_name: redis
+    ports:
+      - "6379:6379"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+  pgadmin:
+    image: 'dpage/pgadmin4'
+    container_name: pgadmin
+    ports:
+      - "80:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=
+      - PGADMIN_DEFAULT_PASSWORD=
